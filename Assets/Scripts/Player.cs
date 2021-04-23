@@ -24,75 +24,80 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.A) && lefttime == 0)
+        {
+            lefttime = 30 - righttime;
+            righttime = 0;
+        }
+        if (Input.GetKeyDown(KeyCode.D) && righttime == 0)
+        {
+            righttime = 30 - lefttime;
+            lefttime = 0;
+        }
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S))
         {
             animator.SetBool("Run", true);
         }
-        if (/*Input.GetKey(KeyCode.Space) && */extrajumptime == 0)
+        if (Input.GetKey(KeyCode.W) && extrajumptime == 0)
         {
             bxy = bx.center.y;
-            jumptime = 400;
-            extrajumptime = 2500;
+            jumptime = 19;
+            extrajumptime = 50;
             animator.SetBool("Jump", true);
         }
         else
         {
             animator.SetBool("Jump", false);
         }
-        if (jumptime <= 250 && jumptime > 0)
+        if (Input.GetKey(KeyCode.Escape))
         {
-            w = jumpingFunc(250 - jumptime, 250);
-            bx.center = new Vector3(bx.center.x, bxy + w, bx.center.z);
+            animator.SetBool("Run", false);
+        }
+    }
+    void FixedUpdate()
+    {
+        if (jumptime <= 15 && jumptime > 0)
+        {
+            w = jumpingFunc(15 - jumptime, 15);
+            bx.center = new Vector3(bx.center.x, (bxy + w), bx.center.z);
         }
         if (jumptime > 0)
         {
-            transform.Translate(0f, 0.004f, 0f);
+            transform.Translate(0f, 0.1f * (20f/19) * (40f / 52f), 0f);
             jumptime--;
             if (jumptime == 0)
             {
-                jumptime = -800;
+                jumptime = -19;
             }
         }
         if (jumptime < 0)
         {
-            transform.Translate(0f, -0.002f, 0f);
+            transform.Translate(0f, -0.1f * (20f / 19) * (40f / 52f), 0f);
             jumptime++;
             if (jumptime == 0)
             {
-                w = jumpingFunc(-jumptime, 400);
-                bx.center = new Vector3(bx.center.x, bxy + w, bx.center.z);
+                w = jumpingFunc(-jumptime, 19);
+                bx.center = new Vector3(bx.center.x, (bxy + w), bx.center.z);
             }
         }
-        if (jumptime >= -400 && jumptime < 0)
+        if (jumptime >= -19 && jumptime < 0)
         {
-            w = jumpingFunc(-jumptime, 400);
-            bx.center = new Vector3(bx.center.x, bxy + w, bx.center.z);
+            w = jumpingFunc(-jumptime, 19);
+            bx.center = new Vector3(bx.center.x, (bxy + w), bx.center.z);
         }
         if (extrajumptime > 0)
         {
             extrajumptime--;
         }
-        if (Input.GetKey(KeyCode.Escape))
-        {
-            animator.SetBool("Run", false);
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            lefttime = 30;
-        }
         if (lefttime > 0)
         {
             transform.Translate(-0.10233f, 0, 0);
             lefttime--;
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            righttime = 30;
         }
         if (righttime > 0)
         {

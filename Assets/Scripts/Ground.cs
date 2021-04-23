@@ -12,11 +12,11 @@ public class Ground : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (animator.GetBool("Run") == true)
         {
-            transform.Translate(0f, 0f, -0.1f);
+            transform.Translate(0f, 0f, -0.3f);
         }
     }
 }
