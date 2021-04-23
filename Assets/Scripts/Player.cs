@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public Vector3 v3;
     public Animator animator;
     public BoxCollider bx;
     int jumptime = 0;
@@ -39,15 +38,17 @@ public class Player : MonoBehaviour
             righttime = 30 - lefttime;
             lefttime = 0;
         }
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S))
+        if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S))
+            && animator.GetBool("Run") == false)
         {
             animator.SetBool("Run", true);
+            extrajumptime = 22 + ((int)(Mathf.Sqrt(Time.deltaTime) * 25));
         }
-        if (Input.GetKey(KeyCode.W) && extrajumptime == 0)
+        if (Input.GetKey(KeyCode.W) && extrajumptime == 0 && animator.GetBool("Run") == true)
         {
             bxy = bx.center.y;
             jumptime = 19;
-            extrajumptime = 50;
+            extrajumptime = 47 + (int)(Mathf.Sqrt(Time.deltaTime) * 50);
             animator.SetBool("Jump", true);
         }
         else
@@ -68,7 +69,7 @@ public class Player : MonoBehaviour
         }
         if (jumptime > 0)
         {
-            transform.Translate(0f, 0.1f * (20f/19) * (40f / 52f), 0f);
+            transform.Translate(0f, 0.1f * (20f/19) * (10f / 13f), 0f);
             jumptime--;
             if (jumptime == 0)
             {
@@ -77,7 +78,7 @@ public class Player : MonoBehaviour
         }
         if (jumptime < 0)
         {
-            transform.Translate(0f, -0.1f * (20f / 19) * (40f / 52f), 0f);
+            transform.Translate(0f, -0.1f * (20f / 19) * (10f / 13f), 0f);
             jumptime++;
             if (jumptime == 0)
             {
