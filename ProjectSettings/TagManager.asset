@@ -4,7 +4,14 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - PLY
   - Button
+  - DownBar
+  - BAR
+  - BART1
+  - BART2
+  - BART3
+  - BART4
   layers:
   - Default
   - TransparentFX

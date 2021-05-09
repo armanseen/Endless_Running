@@ -12,8 +12,11 @@ public class Player : MonoBehaviour
     int lefttime = 0;
     int righttime = 0;
     int extrajumptime = 0;
+    int loc = 0;
     float bxy;
     float w;
+    int fallLR = 0;
+    bool menuflag = false;
     static float jumpingFunc(float x, float s)
     {
         float y;
@@ -30,31 +33,38 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        menu = animator.GetBool("Menu");
-        if (Input.GetKeyDown(KeyCode.A) && lefttime == 0 && menu == false)
+        if (loc > 1 || loc < -1)
         {
+            animator.SetBool("Fall", true);
+        }
+        menu = animator.GetBool("Menu");
+        if (Input.GetKeyDown(KeyCode.A) && lefttime == 0 && menu == false && animator.GetBool("Fall") == false)
+        {
+            loc++;
             lefttime = 30 - righttime;
             righttime = 0;
         }
-        if (Input.GetKeyDown(KeyCode.D) && righttime == 0 && menu == false)
+        if (Input.GetKeyDown(KeyCode.D) && righttime == 0 && menu == false && animator.GetBool("Fall") == false)
         {
+            loc--;
             righttime = 30 - lefttime;
             lefttime = 0;
         }
-        if (((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S)) && menu == false)
+        if (((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S)) && menu == false && animator.GetBool("Fall") == false)
             && animator.GetBool("Run") == false)
         {
             animator.SetBool("Run", true);
+            menuflag = true;
             extrajumptime = 22 + ((int)(Mathf.Sqrt(Time.deltaTime) * 25));
         }
-        if (Input.GetKey(KeyCode.W) && extrajumptime == 0 && animator.GetBool("Run") == true && menu == false)
+        if (Input.GetKey(KeyCode.W) && extrajumptime == 0 && animator.GetBool("Run") == true && menu == false && animator.GetBool("Fall") == false)
         {
             bxy = bx.center.y;
             jumptime = 19;
             extrajumptime = 47 + (int)(Mathf.Sqrt(Time.deltaTime) * 50);
             animator.SetBool("Jump", true);
         }
-        else if (menu == false)
+        else if (menu == false && animator.GetBool("Fall") == false && extrajumptime < 30)
         {
             animator.SetBool("Jump", false);
         }
@@ -65,12 +75,28 @@ public class Player : MonoBehaviour
                 animator.SetBool("Run", false);
                 animator.SetBool("Menu", true);
             }
+            else if(menuflag == false)
+            {
+                animator.SetBool("Menu", false);
+            }
             else
             {
-                animator.SetBool("Run", true);
+                if(animator.GetBool("Fall") == false)
+                {
+                    animator.SetBool("Run", true);
+                }
                 animator.SetBool("Menu", false);
             }
         }
+    }
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.tag == "BART1")
+            Debug.Log("Barkhord1");
+        if (collider.gameObject.tag == "BART2")
+            Debug.Log("Barkhord2");
+        if (collider.gameObject.tag == "BART3" || collider.gameObject.tag == "BART4")
+            Debug.Log("Barkhord3");
     }
     void FixedUpdate()
     {
@@ -109,15 +135,43 @@ public class Player : MonoBehaviour
             {
                 extrajumptime--;
             }
-            if (lefttime > 0)
+            if (lefttime > 0 && fallLR == 0 || fallLR == 1)
             {
-                transform.Translate(-0.10233f, 0, 0);
-                lefttime--;
+                if (animator.GetBool("Fall") == true && lefttime > 20)
+                {
+                    transform.Translate(-0.10233f, 0, 0);
+                    lefttime--;
+                }
+                else if(animator.GetBool("Fall") == true)
+                {
+                    fallLR += 2;
+                    animator.SetBool("Run", false);
+                    righttime = 30;
+                }
+                else
+                {
+                    transform.Translate(-0.10233f, 0, 0);
+                    lefttime--;
+                }
             }
-            if (righttime > 0)
+            if (righttime > 0 && fallLR == 0 || fallLR == 2)
             {
-                transform.Translate(0.10233f, 0, 0);
-                righttime--;
+                if (animator.GetBool("Fall") == true && righttime > 20)
+                {
+                    transform.Translate(0.10233f, 0, 0);
+                    righttime--;
+                }
+                else if (animator.GetBool("Fall") == true)
+                {
+                    fallLR += 1;
+                    animator.SetBool("Run", false);
+                    lefttime = 30;
+                }
+                else
+                {
+                    transform.Translate(0.10233f, 0, 0);
+                    righttime--;
+                }
             }
         }
     }

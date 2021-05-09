@@ -56,13 +56,27 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Player.cs" />
-    <Compile Include="Assets\Scripts\FirstMenu.cs" />
-    <Compile Include="Assets\Scripts\Ground.cs" />
+    <Compile Include="Assets\Scripts\StreetBarriers.cs" />
+    <Compile Include="Assets\Scripts\BarrierGenerator.cs" />
     <Compile Include="Assets\Scripts\Score.cs" />
+    <Compile Include="Assets\Scripts\FirstMenu.cs" />
+    <Compile Include="Assets\Components\Barrier Pack\Scripts\ContrastStretch.cs" />
+    <Compile Include="Assets\Scripts\Ground1.cs" />
+    <Compile Include="Assets\Scripts\Player.cs" />
+    <Compile Include="Assets\Components\Barrier Pack\Scripts\GlobalFog.cs" />
+    <Compile Include="Assets\Scripts\StreetCones.cs" />
+    <Compile Include="Assets\Components\Barrier Pack\Scripts\PostEffectsBase.cs" />
     <Compile Include="Assets\Scripts\GameMenu.cs" />
+    <Compile Include="Assets\Scripts\Ground2.cs" />
+    <Compile Include="Assets\Scripts\Wall1.cs" />
+    <Compile Include="Assets\Scripts\Wall2.cs" />
   </ItemGroup>
   <ItemGroup>
+     <None Include="Assets\Components\Barrier Pack\Shaders\GlobalFog.shader" />
+     <None Include="Assets\Components\Barrier Pack\Shaders\Contrast Stretch\Apply.shader" />
+     <None Include="Assets\Components\Barrier Pack\Shaders\Contrast Stretch\Adaptation.shader" />
+     <None Include="Assets\Components\Barrier Pack\Shaders\Contrast Stretch\MinMaxReduction.shader" />
+     <None Include="Assets\Components\Barrier Pack\Shaders\Contrast Stretch\Luminance.shader" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Editor\2020.3.1f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
