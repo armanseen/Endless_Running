@@ -12,6 +12,9 @@ TagManager:
   - BART2
   - BART3
   - BART4
+  - Bullet
+  - Buildings
+  - Zom
   layers:
   - Default
   - TransparentFX
